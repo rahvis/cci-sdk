@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lending: with vs. without CCI</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --border:         rgba(11,11,11,0.10);
+    --series-cci:     #2a78d6;
+    --series-baseline:#e34948;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page:           #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --gridline:       #2c2c2a;
+      --border:         rgba(255,255,255,0.10);
+      --series-cci:     #3987e5;
+      --series-baseline:#e66767;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 40px 20px 80px; }
+  header { margin-bottom: 36px; }
+  .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase;
+    color: var(--series-cci); margin: 0 0 8px; }
+  h1 { font-size: clamp(26px, 4vw, 36px); font-weight: 650; margin: 0 0 10px; letter-spacing: -0.01em; }
+  .disclaimer { font-size: 14px; color: var(--text-secondary); margin: 0; padding: 10px 14px;
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 8px; display: inline-block; }
+  section { margin-bottom: 48px; }
+  h2 { font-size: 13px; font-weight: 650; letter-spacing: 0.03em; text-transform: uppercase;
+    color: var(--text-muted); margin: 0 0 16px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .stat { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 18px 18px 16px; }
+  .stat .label { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.35; min-height: 34px; }
+  .stat .row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+  .stat .col { display: flex; flex-direction: column; gap: 2px; }
+  .stat .value { font-size: 28px; font-weight: 650; letter-spacing: -0.01em; }
+  .stat .who { font-size: 11px; color: var(--text-muted); font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; }
+  .stat .value.baseline { color: var(--series-baseline); }
+  .stat .value.cci { color: var(--series-cci); }
+  .legend { display: flex; gap: 20px; margin-bottom: 18px; }
+  .legend .item { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--text-secondary); }
+  .legend .dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+  .chart { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 22px 22px 8px; }
+  .chart-row { margin-bottom: 26px; }
+  .chart-row .title { font-size: 14px; color: var(--text-primary); margin-bottom: 10px; }
+  .bar-track { position: relative; height: 26px; margin-bottom: 6px; background: var(--page); border-radius: 4px; }
+  .bar { position: absolute; top: 2px; left: 0; height: 22px; border-radius: 0 4px 4px 0; }
+  .tip-label { position: absolute; top: 50%; transform: translateY(-50%); margin-left: 8px;
+    font-size: 13px; font-weight: 650; color: var(--text-primary); white-space: nowrap; }
+  .tip-label.inside { margin-left: -8px; transform: translate(-100%, -50%); color: #ffffff; }
+  .bar-baseline { background: var(--series-baseline); }
+  .bar-cci { background: var(--series-cci); }
+  .axis-line { height: 1px; background: var(--gridline); margin: 0 0 4px; }
+  .axis-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); margin-bottom: 22px; }
+  .note { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+  .case-card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .case-card .tag { display: inline-block; font-size: 11px; font-weight: 650; letter-spacing: 0.02em;
+    text-transform: uppercase; color: var(--series-cci); margin-bottom: 8px; }
+  .outcome { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+  .outcome-row { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .outcome-row .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  .outcome-row .who { font-weight: 650; min-width: 62px; }
+  .outcome-row.bad .who, .outcome-row.bad .verdict { color: var(--series-baseline); }
+  .outcome-row.good .who, .outcome-row.good .verdict { color: var(--series-cci); }
+  .verdict { font-weight: 600; }
+  .guarantee-list { display: flex; flex-direction: column; gap: 10px; }
+  .guarantee { background: var(--surface-1); border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 14px; font-size: 13.5px; color: var(--text-secondary); line-height: 1.5; }
+  .guarantee b { color: var(--text-primary); }
+  table.data { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--surface-1);
+    border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  table.data th, table.data td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  table.data th { color: var(--text-muted); font-weight: 650; font-size: 11px; text-transform: uppercase; letter-spacing: 0.02em; }
+  table.data tr:last-child td { border-bottom: none; }
+  footer { font-size: 12.5px; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 18px; margin-top: 8px; }
+  @media (max-width: 640px) { .stats { grid-template-columns: 1fr; } table.data { font-size: 12px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">Conformal Logit Inference — demo</p>
+    <h1>Lending: with vs. without CCI</h1>
+    <p class="disclaimer">Synthetic demo data only — not financial or credit advice.</p>
+  </header>
+
+  <section>
+    <h2>Same 12 applications, 3 channels, one variable</h2>
+    <div class="stats">
+      <div class="stat">
+        <div class="label">Correct tier (baseline top guess vs. CCI candidate-set coverage)</div>
+        <div class="row">
+          <div class="col"><span class="value baseline">58%</span><span class="who">Baseline · 7 of 12</span></div>
+          <div class="col"><span class="value cci">92%</span><span class="who">CCI · 11 of 12</span></div>
+        </div>
+      </div>
+      <div class="stat">
+        <div class="label">Applications auto-finalized without underwriter review</div>
+        <div class="row">
+          <div class="col"><span class="value baseline">25%</span><span class="who">Baseline · 3 of 12</span></div>
+          <div class="col"><span class="value cci">33%</span><span class="who">CCI · 4 of 12</span></div>
+        </div>
+      </div>
+      <div class="stat">
+        <div class="label">Auto-finalized AND wrong</div>
+        <div class="row">
+          <div class="col"><span class="value baseline">0</span><span class="who">Baseline</span></div>
+          <div class="col"><span class="value cci">0</span><span class="who">CCI</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Coverage audited separately per channel — not one blended number</h2>
+    <div class="chart">
+      <div class="chart-row">
+        <div class="title">Held-out cases where the calibrated set actually contained the true tier</div>
+        <div class="bar-track"><div class="bar bar-cci" style="width:100%"></div><span class="tip-label inside" style="left:100%">4/4 · branch</span></div>
+        <div class="bar-track"><div class="bar bar-cci" style="width:75%"></div><span class="tip-label inside" style="left:75%">3/4 · online</span></div>
+        <div class="bar-track"><div class="bar bar-cci" style="width:100%"></div><span class="tip-label inside" style="left:100%">4/4 · partner</span></div>
+        <div class="axis-line"></div>
+        <div class="axis-labels"><span>0</span><span>1</span><span>2</span><span>3</span><span>4 cases</span></div>
+        <p class="note">This is the mechanism the product names specifically for lending: coverage calibrated
+        per channel, so a channel with weaker data can't hide behind a strong blended number. With only 20
+        calibration examples per channel here, per-channel numbers are imprecise — small-sample noise, not a
+        flaw in the mechanism itself.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Where a hand-picked cutoff got it backwards</h2>
+    <div class="case-card">
+      <span class="tag">LT-0011 · online channel · true tier: decline</span>
+      <p class="note" style="margin:0 0 4px">Unemployed applicant, requesting a limit larger than typical for the profile — every measure of this policy says decline.</p>
+      <div class="outcome">
+        <div class="outcome-row bad"><span class="dot" style="background:var(--series-baseline)"></span><span class="who">Baseline:</span><span class="verdict">Correctly predicted "decline" — but only 75% self-reported confidence, just under its own 80% cutoff, so it sat in the queue anyway</span></div>
+        <div class="outcome-row good"><span class="dot" style="background:var(--series-cci)"></span><span class="who">CCI:</span><span class="verdict">Candidate set narrowed to a single tier ("decline"), Gate cleared its calibrated bound, auto-finalized</span></div>
+      </div>
+    </div>
+    <p class="note">A calibrated bound doesn't just act less often on shaky evidence — it also acts confidently when the evidence is actually clear, instead of getting stuck on an arbitrary round number.</p>
+  </section>
+
+  <section>
+    <h2>The actual guarantees returned, in plain terms</h2>
+    <div class="guarantee-list">
+      <div class="guarantee"><b>Tier check (Set, per channel):</b> the calibrated candidate set contained the correct tier at least 80% of the time, audited separately within each of the 3 channels.</div>
+      <div class="guarantee"><b>Auto-approval check (Gate):</b> the expected rate of decisions that are auto-finalized and wrong is at most 15% — computed from held-out outcomes, not self-reported.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Every case</h2>
+    <table class="data">
+      <thead><tr><th>Case</th><th>Channel</th><th>True tier</th><th>Baseline (conf)</th><th>Baseline action</th><th>CCI candidate set</th><th>CCI action</th></tr></thead>
+      <tbody>
+        <tr><td>LT-0001</td><td>partner</td><td>prime</td><td>prime (0.85)</td><td>auto-finalized</td><td>[prime]</td><td>auto-finalized</td></tr>
+        <tr><td>LT-0002</td><td>online</td><td>subprime</td><td>near_prime (0.68)</td><td>escalated</td><td>[subprime]</td><td>escalated</td></tr>
+        <tr><td>LT-0003</td><td>branch</td><td>subprime</td><td>subprime (0.60)</td><td>escalated</td><td>[subprime]</td><td>escalated</td></tr>
+        <tr><td>LT-0004</td><td>branch</td><td>subprime</td><td>near_prime (0.70)</td><td>escalated</td><td>[subprime]</td><td>escalated</td></tr>
+        <tr><td>LT-0005</td><td>partner</td><td>decline</td><td>subprime (0.60)</td><td>escalated</td><td>[decline]</td><td>escalated</td></tr>
+        <tr><td>LT-0006</td><td>partner</td><td>subprime</td><td>near_prime (0.68)</td><td>escalated</td><td>[subprime]</td><td>escalated</td></tr>
+        <tr><td>LT-0007</td><td>branch</td><td>prime</td><td>prime (0.85)</td><td>auto-finalized</td><td>[prime]</td><td>auto-finalized</td></tr>
+        <tr><td>LT-0008</td><td>online</td><td>subprime</td><td>subprime (0.62)</td><td>escalated</td><td>[subprime]</td><td>escalated</td></tr>
+        <tr><td>LT-0009</td><td>online</td><td>near_prime</td><td>subprime (0.60)</td><td>escalated</td><td>[subprime]</td><td>escalated</td></tr>
+        <tr><td>LT-0010</td><td>partner</td><td>subprime</td><td>subprime (0.60)</td><td>escalated</td><td>[subprime]</td><td>escalated</td></tr>
+        <tr><td>LT-0011</td><td>online</td><td>decline</td><td>decline (0.75)</td><td>escalated</td><td>[decline]</td><td><b style="color:var(--series-cci)">auto-finalized</b></td></tr>
+        <tr><td>LT-0012</td><td>branch</td><td>prime</td><td>prime (0.90)</td><td>auto-finalized</td><td>[prime]</td><td>auto-finalized</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    Generated from one real run of <code>demo-finance/compare_lending.py</code> against production
+    (<code>https://cci.gitdate.ink/api/v1</code>) and the Claude API — see
+    <code>demo-finance/results/lending_report.md</code> for the full technical write-up and
+    <code>demo-finance/plan.md</code> for the methodology.
+  </footer>
+
+</div>
+</body>
+</html>
