@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "cci-sdk"
-version = "0.1.0"
+version = "0.1.1"
 description = "Python SDK and standalone statistics engine for Conformal Logit Inference (CLI) — conformal prediction, Venn-Abers calibration, and e-values for LLM decisions."
 readme = "README.md"
 requires-python = ">=3.9"

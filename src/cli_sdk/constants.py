@@ -28,4 +28,4 @@ ACCESS_LEVEL_L2 = "L2"  # scoring of text you supply
 ACCESS_LEVEL_L3 = "L3"  # exact label-token probabilities / full logits
 ACCESS_LEVEL_L4 = "L4"  # hidden states
 
-USER_AGENT = "cci-sdk-python/0.1.0"
+USER_AGENT = "cci-sdk-python/0.1.1"

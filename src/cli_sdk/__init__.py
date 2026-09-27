@@ -52,7 +52,7 @@ from cli_sdk.exceptions import (
 from cli_sdk.monitoring import Alert, LocalMonitor
 from cli_sdk.queries import Belief, Claim, Gate, Interval, Judge, Query, Route, Set
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 # The HTTP clients are imported lazily so that the offline statistics
 # engine (``cli_sdk.stats``) and the pure-Python query/answer types never
