@@ -35,7 +35,7 @@ is treated as needing review.
 With ``human_review=False`` there is no interrupt: escalated calls are
 refused with an error ``ToolMessage`` instead (useful for batch jobs).
 
-Requires ``pip install "cli-sdk[langchain]"`` (langchain>=1.0) and, for
+Requires ``pip install "cci-sdk[langchain]"`` (langchain>=1.0) and, for
 human review, a checkpointer plus a ``thread_id`` in the run config (use a
 durable checkpointer shared by all workers in production).
 """
@@ -57,7 +57,7 @@ try:
     from langchain_core.messages import AIMessage, ToolMessage
 except ImportError as exc:  # pragma: no cover - exercised only without the extra
     raise ImportError(
-        'cli_sdk.integrations.langchain needs LangChain 1.x: pip install "cli-sdk[langchain]"'
+        'cli_sdk.integrations.langchain needs LangChain 1.x: pip install "cci-sdk[langchain]"'
     ) from exc
 
 from cli_sdk.integrations._guard import ALLOW, BLOCK, ESCALATE, GuardDecision, ToolGuard

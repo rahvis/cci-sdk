@@ -40,7 +40,7 @@ guarantee card and the evidence), and, after a review, ``review`` with the
 ``outcome`` (approve, edit or reject), the reviewer's ``note`` and, for an
 edit, the ``executed_calls``.
 
-Requires ``pip install "cli-sdk[langgraph]"`` (langgraph>=1.0).
+Requires ``pip install "cci-sdk[langgraph]"`` (langgraph>=1.0).
 """
 
 from __future__ import annotations
@@ -54,7 +54,7 @@ try:
     from langgraph.prebuilt import tools_condition
     from langgraph.types import Command, interrupt
 except ImportError as exc:  # pragma: no cover - exercised only without the extra
-    raise ImportError('cli_sdk.integrations.langgraph needs LangGraph 1.x: pip install "cli-sdk[langgraph]"') from exc
+    raise ImportError('cli_sdk.integrations.langgraph needs LangGraph 1.x: pip install "cci-sdk[langgraph]"') from exc
 
 from cli_sdk.integrations._guard import ALLOW, BLOCK, ESCALATE, ToolGuard, most_severe
 

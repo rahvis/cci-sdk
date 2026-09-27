@@ -15,7 +15,7 @@ Module                                  Framework
 ======================================  ========================================
 
 Framework packages are optional; each adapter imports its framework only
-when used. Install with ``pip install "cli-sdk[langchain]"`` (or
+when used. Install with ``pip install "cci-sdk[langchain]"`` (or
 ``[langgraph]``, ``[google-adk]``, ``[agent-framework]``).
 """
 

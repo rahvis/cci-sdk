@@ -28,7 +28,7 @@ therefore needs an ``AgentSession``. Any failure raises
 ``MiddlewareFailure`` (fail closed), never a tool error the loop would
 continue past.
 
-Requires ``pip install "cli-sdk[agent-framework]"`` (agent-framework-core>=1.19).
+Requires ``pip install "cci-sdk[agent-framework]"`` (agent-framework-core>=1.19).
 """
 
 from __future__ import annotations
@@ -48,7 +48,7 @@ try:
     )
 except ImportError as exc:  # pragma: no cover - exercised only without the extra
     raise ImportError(
-        'cli_sdk.integrations.agent_framework needs Microsoft Agent Framework: pip install "cli-sdk[agent-framework]"'
+        'cli_sdk.integrations.agent_framework needs Microsoft Agent Framework: pip install "cci-sdk[agent-framework]"'
     ) from exc
 
 from cli_sdk.integrations._guard import ToolGuard

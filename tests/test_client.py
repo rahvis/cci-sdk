@@ -107,9 +107,9 @@ class TestEvaluateRequest:
 
         request = api.last
         assert request.method == "POST"
-        assert str(request.url) == "https://api.cli.dev/v1/evaluate"
+        assert str(request.url) == "https://cci.gitdate.ink/api/v1/evaluate"
         assert request.headers["authorization"] == f"Bearer {API_KEY}"
-        assert request.headers["user-agent"] == USER_AGENT == f"cli-sdk-python/{cli_sdk.__version__}"
+        assert request.headers["user-agent"] == USER_AGENT == f"cci-sdk-python/{cli_sdk.__version__}"
         assert request.headers["content-type"] == "application/json"
         assert api.body() == {
             "context": CONTEXT,
@@ -357,7 +357,7 @@ class TestConfiguration:
         "base_url",
         [
             None,
-            "https://api.cli.dev/v1",
+            "https://cci.gitdate.ink/api/v1",
             "https://localhost.attacker.example/v1",
             "https://cli.example.com/v1?next=http://localhost",
             "https://127.0.0.1.nip.io/v1",

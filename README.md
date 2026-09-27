@@ -1,4 +1,4 @@
-# cli-sdk — Python SDK for Conformal Logit Inference
+# cci-sdk — Python SDK for Conformal Logit Inference
 
 Conformal Logit Inference (CLI) turns the raw output of any LLM into
 finite-sample statistical guarantees. This package contains:
@@ -25,16 +25,16 @@ a stated calibration set. None is a promise about one decision in isolation.
 ## Install
 
 ```bash
-pip install cli-sdk          # or: uv add cli-sdk
+pip install cci-sdk          # or: uv add cli-sdk
 ```
 
 Optional extras for model providers and agent frameworks (Python 3.10+ for
 the frameworks):
 
 ```bash
-pip install "cli-sdk[openai]"            # OpenAI, Azure OpenAI, vLLM, SGLang evidence backends
-pip install "cli-sdk[anthropic]"         # Claude evidence backend
-pip install "cli-sdk[langchain,openai]"  # or [langgraph], [google-adk], [agent-framework], [all]
+pip install "cci-sdk[openai]"            # OpenAI, Azure OpenAI, vLLM, SGLang evidence backends
+pip install "cci-sdk[anthropic]"         # Claude evidence backend
+pip install "cci-sdk[langchain,openai]"  # or [langgraph], [google-adk], [agent-framework], [all]
 ```
 
 For development in this repository:
@@ -59,10 +59,10 @@ A key is not required when `CLI_BASE_URL` points at `localhost`.
 
 ### Over HTTP
 
-Every call is `POST https://api.cli.dev/v1/evaluate` with a bearer token:
+Every call is `POST https://cci.gitdate.ink/api/v1/evaluate` with a bearer token:
 
 ```bash
-curl https://api.cli.dev/v1/evaluate \
+curl https://cci.gitdate.ink/api/v1/evaluate \
   -H "Authorization: Bearer $CLI_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -286,7 +286,7 @@ print(answer.decision, answer.guarantee.describe())
 Profiles are fingerprinted with the backend configuration and the query's
 prompt: change either and answers fall back to their safe heuristic form
 (escalate, every option, `[0, 1]`) until you recalibrate. See the
-[local mode guide](https://docs.cli.dev/agents/local-mode).
+[local mode guide](https://cci-docs.gitdate.ink/agents/local-mode).
 
 ## Agent frameworks
 
@@ -314,7 +314,7 @@ insurance claims, discharge summaries, AML holds, trial screening, credit
 tiers, drug safety) are in `examples/agents/`. Each runs offline with
 `--provider mock` and with your own keys for OpenAI, Azure, Anthropic,
 Gemini, or Gemma on vLLM or SGLang. See the
-[agent frameworks guide](https://docs.cli.dev/agents).
+[agent frameworks guide](https://cci-docs.gitdate.ink/agents).
 
 ## Offline statistics engine
 

@@ -1,6 +1,6 @@
 """An offline stand-in for the hosted CLI API, used by every hosted example.
 
-``MockCLIServer`` answers the same endpoints as ``https://api.cli.dev/v1``
+``MockCLIServer`` answers the same endpoints as ``https://cci.gitdate.ink/api/v1``
 through ``httpx.MockTransport``, so an example runs end to end with no
 network access and no API key:
 

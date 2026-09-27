@@ -21,7 +21,7 @@ Calibration at L0 costs ``sample_count`` requests per example. Lower
 score calibration sets with a logprob-capable backend and keep Claude for
 the agent itself.
 
-Requires ``pip install "cli-sdk[anthropic]"``.
+Requires ``pip install "cci-sdk[anthropic]"``.
 """
 
 from __future__ import annotations
@@ -58,7 +58,7 @@ class AnthropicEvidenceBackend(EvidenceBackend):
             try:
                 import anthropic
             except ImportError as exc:  # pragma: no cover
-                raise ImportError('this backend needs the Anthropic SDK: pip install "cli-sdk[anthropic]"') from exc
+                raise ImportError('this backend needs the Anthropic SDK: pip install "cci-sdk[anthropic]"') from exc
             client = anthropic.Anthropic(api_key=api_key)
         if thinking not in ("auto", "disabled", "default"):
             raise ValueError("thinking must be 'auto', 'disabled' or 'default'")

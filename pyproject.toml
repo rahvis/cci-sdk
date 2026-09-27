@@ -3,14 +3,14 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "cli-sdk"
+name = "cci-sdk"
 version = "0.1.0"
 description = "Python SDK and standalone statistics engine for Conformal Logit Inference (CLI) — conformal prediction, Venn-Abers calibration, and e-values for LLM decisions."
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "Apache-2.0" }
 license-files = ["LICENSE"]
-authors = [{ name = "Conformal Logit Inference" }]
+authors = [{ name = "CCI", email = "rahul.vishwakarma@workonward.org" }]
 keywords = [
   "conformal-prediction",
   "venn-abers",
@@ -50,8 +50,9 @@ all = [
 dev = ["pytest>=8.0", "pytest-asyncio>=0.23", "mypy>=1.10", "ruff>=0.5"]
 
 [project.urls]
-Documentation = "https://docs.cli.dev"
-Repository = "https://github.com/cli-inference/cli"
+Homepage = "https://cci.gitdate.ink"
+Documentation = "https://cci-docs.gitdate.ink"
+Repository = "https://github.com/rahvis/cci-sdk"
 
 [project.scripts]
 cli = "cli_sdk.cli_tool:main"

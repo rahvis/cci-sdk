@@ -13,7 +13,7 @@ calibration example uses the real statistics engine with no network at all.
 | `model_cascade_routing.py` | Cost routing between a vLLM tier and an OpenAI tier (PRD 11.5) | `Route(guarantee="cost_budget")`, `VLLMBackend`, `OpenAIBackend` |
 | `custom_backend_evidence.py` | Bring your own model (PRD 8.4) | `CustomBackend` at L1 and L0; prints the exact request body sent |
 | `offline_calibration_no_network.py` | Offline calibration, no hosted API (PRD 8.3, 11.6) | `stats.conformal` (APS, LAC, CRC, LTT), `stats.venn_abers` (IVAP), `stats.evalues` (e-BH, `CoverageMonitor`, PPI) |
-| `_mock.py` | Offline mock of `https://api.cli.dev/v1` used by the hosted examples | `httpx.MockTransport` |
+| `_mock.py` | Offline mock of `https://cci.gitdate.ink/api/v1` used by the hosted examples | `httpx.MockTransport` |
 
 ## Agent-framework examples
 
@@ -30,7 +30,7 @@ From the repository root:
 
 ```bash
 cd sdk/python
-pip install -e .            # installs cli-sdk with its only dependencies, httpx and numpy
+pip install -e .            # installs cci-sdk with its only dependencies, httpx and numpy
 ```
 
 The examples import `_mock` from this directory. Python adds a script's own

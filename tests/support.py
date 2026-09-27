@@ -11,8 +11,10 @@ from typing import Any, Optional
 
 import httpx
 
+from cli_sdk.constants import DEFAULT_BASE_URL
+
 API_KEY = "sk-test-123"
-BASE_URL = "https://api.cli.dev/v1"
+BASE_URL = DEFAULT_BASE_URL
 PROFILE = "support-routing-v3"
 
 

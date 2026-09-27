@@ -229,7 +229,7 @@ class TestCalibrationProfilesSync:
     def test_profile_names_are_escaped_in_paths(self, api: MockAPI, client):
         api.reply(200, profile_payload(name="team a/b?x"))
         client.calibration_profiles.get("team a/b?x")
-        assert api.last.url.raw_path == b"/v1/calibration-profiles/team%20a%2Fb%3Fx"
+        assert api.last.url.raw_path == b"/api/v1/calibration-profiles/team%20a%2Fb%3Fx"
 
     def test_list(self, api: MockAPI, client):
         api.reply(
@@ -443,12 +443,12 @@ class TestMonitorsSync:
     def test_poll_all_monitors(self, api: MockAPI, client):
         api.route(
             "GET",
-            f"/v1/calibration-profiles/{PROFILE}/monitors",
+            f"/api/v1/calibration-profiles/{PROFILE}/monitors",
             {"monitors": [monitor_payload("mon_1"), monitor_payload("mon_2")]},
         )
         api.route(
             "GET",
-            f"/v1/calibration-profiles/{PROFILE}/monitors/mon_1/alerts",
+            f"/api/v1/calibration-profiles/{PROFILE}/monitors/mon_1/alerts",
             {
                 "alerts": [
                     {
@@ -463,14 +463,14 @@ class TestMonitorsSync:
                 ]
             },
         )
-        api.route("GET", f"/v1/calibration-profiles/{PROFILE}/monitors/mon_2/alerts", {"alerts": []})
+        api.route("GET", f"/api/v1/calibration-profiles/{PROFILE}/monitors/mon_2/alerts", {"alerts": []})
         alerts = client.calibration_profiles.monitors.poll(PROFILE)
         assert api.requests == []  # sync poll is a lazy generator
         alerts = list(alerts)
         assert [r.url.path for r in api.requests] == [
-            f"/v1/calibration-profiles/{PROFILE}/monitors",
-            f"/v1/calibration-profiles/{PROFILE}/monitors/mon_1/alerts",
-            f"/v1/calibration-profiles/{PROFILE}/monitors/mon_2/alerts",
+            f"/api/v1/calibration-profiles/{PROFILE}/monitors",
+            f"/api/v1/calibration-profiles/{PROFILE}/monitors/mon_1/alerts",
+            f"/api/v1/calibration-profiles/{PROFILE}/monitors/mon_2/alerts",
         ]
         assert alerts == [
             Alert(
@@ -493,7 +493,7 @@ class TestMonitorsSync:
         )
         alerts = list(client.calibration_profiles.monitors.poll(PROFILE, monitor_id="mon_9"))
         assert len(api.requests) == 1
-        assert api.last.url.path == f"/v1/calibration-profiles/{PROFILE}/monitors/mon_9/alerts"
+        assert api.last.url.path == f"/api/v1/calibration-profiles/{PROFILE}/monitors/mon_9/alerts"
         assert (
             alerts[0].type == "fingerprint"
             and alerts[0].severity == "warning"
@@ -527,12 +527,12 @@ class TestAsyncResources:
         audit = await client.calibration_profiles.audit(PROFILE, [{"context": "c", "label": "billing"}])
 
         assert [(r.method, r.url.path) for r in api.requests] == [
-            ("POST", "/v1/calibration-profiles"),
-            ("GET", f"/v1/calibration-profiles/{PROFILE}"),
-            ("GET", "/v1/calibration-profiles"),
-            ("POST", f"/v1/calibration-profiles/{PROFILE}/examples"),
-            ("POST", f"/v1/calibration-profiles/{PROFILE}/label-with-judge"),
-            ("POST", f"/v1/calibration-profiles/{PROFILE}/audit"),
+            ("POST", "/api/v1/calibration-profiles"),
+            ("GET", f"/api/v1/calibration-profiles/{PROFILE}"),
+            ("GET", "/api/v1/calibration-profiles"),
+            ("POST", f"/api/v1/calibration-profiles/{PROFILE}/examples"),
+            ("POST", f"/api/v1/calibration-profiles/{PROFILE}/label-with-judge"),
+            ("POST", f"/api/v1/calibration-profiles/{PROFILE}/audit"),
         ]
         assert api.body(0)["alpha"] == 0.05
         assert created.n == 0 and fetched.n == 1204 and listed[0].name == PROFILE and added.n == 1205
@@ -547,13 +547,13 @@ class TestAsyncResources:
     async def test_monitors(self, api: MockAPI, make_async_client):
         client = make_async_client()
         monitors = client.calibration_profiles.monitors
-        api.route("POST", f"/v1/calibration-profiles/{PROFILE}/monitors", monitor_payload("mon_1"))
+        api.route("POST", f"/api/v1/calibration-profiles/{PROFILE}/monitors", monitor_payload("mon_1"))
         api.route(
-            "GET", f"/v1/calibration-profiles/{PROFILE}/monitors", {"monitors": [monitor_payload("mon_1")]}
+            "GET", f"/api/v1/calibration-profiles/{PROFILE}/monitors", {"monitors": [monitor_payload("mon_1")]}
         )
         api.route(
             "GET",
-            f"/v1/calibration-profiles/{PROFILE}/monitors/mon_1/alerts",
+            f"/api/v1/calibration-profiles/{PROFILE}/monitors/mon_1/alerts",
             {"alerts": [{"type": "coverage", "e_value": 25.0}]},
         )
 

@@ -40,7 +40,7 @@ Primitive and guarantee
     travel with the case for the physician's routine review.
 
 Install
-    ``pip install "cli-sdk[agent-framework,openai]" agent-framework-openai``,
+    ``pip install "cci-sdk[agent-framework,openai]" agent-framework-openai``,
     plus ``agent-framework-anthropic`` or ``agent-framework-gemini`` for those
     agent models (both are beta connectors; Python 3.10 or later).
 

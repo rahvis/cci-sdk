@@ -72,7 +72,7 @@ Run it
     Mix models with ``--evidence-provider``, for example
     ``--provider anthropic --evidence-provider vllm``.
 
-    Install: ``pip install "cli-sdk[langchain,openai]" langchain-openai`` (use
+    Install: ``pip install "cci-sdk[langchain,openai]" langchain-openai`` (use
     ``langchain-anthropic`` or ``langchain-google-genai`` for those agents).
 
 Cost of calibrating with a real evidence model
@@ -128,7 +128,7 @@ try:
     from langgraph.checkpoint.memory import InMemorySaver
     from langgraph.types import Command
 except ImportError as exc:  # pragma: no cover - exercised only without LangChain
-    raise SystemExit('This example needs LangChain 1.x: pip install "cli-sdk[langchain]"') from exc
+    raise SystemExit('This example needs LangChain 1.x: pip install "cci-sdk[langchain]"') from exc
 
 from cli_sdk import Set  # noqa: E402
 from cli_sdk.exceptions import BackendError  # noqa: E402

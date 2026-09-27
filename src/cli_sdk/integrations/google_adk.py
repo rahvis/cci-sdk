@@ -30,7 +30,7 @@ Every decision is appended to ``session.state["cli_guard_audit"]``.
 
 Tool confirmation is marked experimental in ADK 2.x and is supported with
 ``InMemorySessionService``; check ADK's documentation for other session
-services. Requires ``pip install "cli-sdk[google-adk]"``.
+services. Requires ``pip install "cci-sdk[google-adk]"``.
 """
 
 from __future__ import annotations
@@ -41,7 +41,7 @@ try:
     from google.adk.plugins import BasePlugin
     from google.genai import types
 except ImportError as exc:  # pragma: no cover - exercised only without the extra
-    raise ImportError('cli_sdk.integrations.google_adk needs Google ADK: pip install "cli-sdk[google-adk]"') from exc
+    raise ImportError('cli_sdk.integrations.google_adk needs Google ADK: pip install "cci-sdk[google-adk]"') from exc
 
 from cli_sdk.integrations._guard import GuardDecision, ToolGuard, _jsonable
 

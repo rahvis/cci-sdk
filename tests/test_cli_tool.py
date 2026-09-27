@@ -115,7 +115,7 @@ class TestHostedCommands:
         )
         assert main(["calibration", "show", PROFILE]) == 0
         out = capsys.readouterr().out
-        assert mocked_cli_client.last.url.path == f"/v1/calibration-profiles/{PROFILE}"
+        assert mocked_cli_client.last.url.path == f"/api/v1/calibration-profiles/{PROFILE}"
         assert f"{PROFILE} (v3)" in out
         assert "APS / 0.1" in out
         assert "1204 (minimum 9, recommended 1000)" in out
@@ -157,7 +157,7 @@ class TestHostedCommands:
             argv += ["--fail-below", str(fail_below)]
         assert main(argv) == expected_code
         request = mocked_cli_client.last
-        assert request.method == "POST" and request.url.path == f"/v1/calibration-profiles/{PROFILE}/audit"
+        assert request.method == "POST" and request.url.path == f"/api/v1/calibration-profiles/{PROFILE}/audit"
         assert json.loads(request.content) == {
             "examples": [
                 {"context": {"ticket": "a"}, "label": "billing"},

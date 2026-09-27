@@ -17,7 +17,7 @@ the gpt-4.1 family, or models that accept ``reasoning_effort="none"``
 (for example gpt-6-sol, gpt-6-luna, gpt-5.1 and later). For any other
 reasoning model, construct the backend with ``use_logprobs=False``.
 
-Requires ``pip install "cli-sdk[openai]"``.
+Requires ``pip install "cci-sdk[openai]"``.
 """
 
 from __future__ import annotations
@@ -32,7 +32,7 @@ def _require_openai():
     try:
         import openai  # noqa: F401
     except ImportError as exc:  # pragma: no cover - exercised only without the extra
-        raise ImportError('this backend needs the OpenAI SDK: pip install "cli-sdk[openai]"') from exc
+        raise ImportError('this backend needs the OpenAI SDK: pip install "cci-sdk[openai]"') from exc
     return openai
 
 

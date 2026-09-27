@@ -47,12 +47,12 @@ Running it
     Real providers (keys come from environment variables, see
     ``examples/agents/.env.example``)::
 
-        pip install "cli-sdk[langgraph,openai]" langchain-openai
+        pip install "cci-sdk[langgraph,openai]" langchain-openai
         export OPENAI_API_KEY=...          # never commit keys
         python examples/agents/langgraph/clinical_summary_graph.py --provider openai
 
         python ... --provider azure        # AZURE_OPENAI_API_KEY, _ENDPOINT, _DEPLOYMENT
-        python ... --provider anthropic    # ANTHROPIC_API_KEY; pip install langchain-anthropic "cli-sdk[anthropic]"
+        python ... --provider anthropic    # ANTHROPIC_API_KEY; pip install langchain-anthropic "cci-sdk[anthropic]"
         python ... --provider gemini       # GOOGLE_API_KEY; pip install langchain-google-genai
 
     Gemma on vLLM or SGLang (the draft is plain text, so no tool-call parser

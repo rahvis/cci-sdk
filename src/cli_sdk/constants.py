@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-DEFAULT_BASE_URL = "https://api.cli.dev/v1"
+DEFAULT_BASE_URL = "https://cci.gitdate.ink/api/v1"
 
 ENV_API_KEY = "CLI_API_KEY"
 ENV_BASE_URL = "CLI_BASE_URL"
@@ -28,4 +28,4 @@ ACCESS_LEVEL_L2 = "L2"  # scoring of text you supply
 ACCESS_LEVEL_L3 = "L3"  # exact label-token probabilities / full logits
 ACCESS_LEVEL_L4 = "L4"  # hidden states
 
-USER_AGENT = "cli-sdk-python/0.1.0"
+USER_AGENT = "cci-sdk-python/0.1.0"
